@@ -1,0 +1,30 @@
+name: Convert PPTX to PDF
+
+on:
+  workflow_dispatch:  # Allows manual execution
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Dependencies
+      run: pip install python-pptx fpdf
+
+    - name: Convert PPTX to PDF
+      run: |
+        python convert_and_print.py
+
+    - name: Upload PDF
+      uses: actions/upload-artifact@v3
+      with:
+        name: converted-pdf
+        path: /tmp/converted_slides.pdf
